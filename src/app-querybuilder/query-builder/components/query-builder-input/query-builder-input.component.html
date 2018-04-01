@@ -1,0 +1,64 @@
+<div class="form-inline">
+  <!--Field Name-->
+  <div class="form-group">
+    <select class="form-control mr-2 py-1" [formControl]="selectedField">
+      <option *ngIf="!condition?.id" [ngValue]="null"></option>
+      <option *ngFor="let attribute of filter" [ngValue]="attribute.id">{{attribute.label}}</option>
+    </select>
+  </div>
+
+  <!--Operators-->
+  <div class="form-group">
+    <select class="form-control mr-2 py-1" [formControl]="selectedOperator" *ngIf="condition?.id">
+      <option *ngIf="!condition?.operator" [ngValue]="null"></option>
+      <option *ngFor="let operator of getOperatorsById(condition.id)" [ngValue]="operator">{{operator}}
+      </option>
+    </select>
+  </div>
+
+  <!--Input Values-->
+  <form [formGroup]="inputValues" novalidate *ngIf="condition?.operator  && !isOperatorMultiple" class="form-group">
+    <ng-container *ngFor="let item of pseudoArr;let i = index">
+      <ng-container [ngSwitch]="getDataTypeById(condition.id)">
+        <ng-container *ngSwitchCase="DATA_TYPES.NUMBER">
+          <input class="form-control mr-1" [ngClass]="{'is-invalid': ifShowValidationMessage(inputValues.controls[i])}"
+                 type="number" formControlName="{{i}}"
+                 [tooltip]="getValidationMessages(inputValues.controls[i])">
+        </ng-container>
+
+        <ng-container *ngSwitchCase="DATA_TYPES.STRING">
+          <input class="form-control mr-1" [ngClass]="{'is-invalid': ifShowValidationMessage(inputValues.controls[i])}"
+                 type="text" formControlName="{{i}}"
+                 [tooltip]="getValidationMessages(inputValues.controls[i])">
+        </ng-container>
+
+        <div *ngSwitchCase="DATA_TYPES.BOOLEAN" class="form-check form-check-inline mr-1">
+          <label class="form-check-label pr-2">
+            <input class="form-check-input" type="radio" value="true" formControlName="0"> True
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" value="false" formControlName="0"> False
+          </label>
+        </div>
+
+        <ng-container *ngSwitchCase="DATA_TYPES.DATE">
+          <input class="form-control mr-1" [ngClass]="{'is-invalid': ifShowValidationMessage(inputValues.controls[i])}"
+                 type="text" formControlName="{{i}}"
+                 bsDatepicker
+                 [tooltip]="getValidationMessages(inputValues.controls[i])">
+        </ng-container>
+
+      </ng-container>
+    </ng-container>
+  </form>
+
+  <form [formGroup]="inputValues" novalidate *ngIf="condition?.operator  && isOperatorMultiple" class="form-group">
+    <ng-container *ngFor="let item of pseudoArr;let i = index">
+      <input class="form-control mr-1" [ngClass]="{'is-invalid': ifShowValidationMessage(inputValues.controls[i])}"
+             type="text" formControlName="{{i}}" placeholder="value1, value2, value3..."
+             [tooltip]="getValidationMessages(inputValues.controls[i])">
+    </ng-container>
+  </form>
+
+</div>
+

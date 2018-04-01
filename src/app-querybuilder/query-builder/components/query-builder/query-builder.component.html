@@ -1,0 +1,96 @@
+<div class="query-builder">
+  <dl class="rules-group-container">
+
+    <dt class='rules-group-header'>
+      <div class="btn-group btn-group-sm float-right">
+        <button type="button" class="btn btn-sm btn-success" (click)="addEmptyCondition(currentRule)">
+          <i class="fa fa-plus"></i> Add Condition
+        </button>
+        <button type="button" class="btn btn-sm btn-success" (click)="addEmptyConditionGroup(currentRule)">
+          <i class="fa fa-plus-circle"></i> Add Group
+        </button>
+      </div>
+
+      <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-sm"
+                [ngClass]="{'btn-primary':isLogicOperatorValid(currentRule,LOGIC_OPERATORS.AND)}"
+                (click)="onClickLogicOperator(currentRule,LOGIC_OPERATORS.AND)">{{LOGIC_OPERATORS.AND|uppercase}}
+        </button>
+        <button type="button" class="btn btn-sm"
+                [ngClass]="{'btn-primary':isLogicOperatorValid(currentRule,LOGIC_OPERATORS.OR)}"
+                (click)="onClickLogicOperator(currentRule,LOGIC_OPERATORS.OR)">{{LOGIC_OPERATORS.OR|uppercase}}
+
+        </button>
+        <button type="button" class="btn btn-sm"
+                [ngClass]="{'btn-primary':isLogicOperatorValid(currentRule,LOGIC_OPERATORS.NOT)}"
+                (click)="onClickLogicOperator(currentRule,LOGIC_OPERATORS.NOT)">{{LOGIC_OPERATORS.NOT|uppercase}}
+        </button>
+      </div>
+    </dt>
+
+    <ng-template #recursiveList let-currentRule>
+      <dd>
+        <ul class="rules-list">
+          <ng-container *ngFor="let item of currentRule?.rules">
+            <li *ngIf="!item?.condition" class="rule-container">
+              <div class="d-flex justify-content-between align-items-center">
+                <query-builder-input [condition]="item" [filter]="filter"></query-builder-input>
+                <button type="button" class="btn btn-sm btn-danger"
+                        (click)="deleteConditionOrGroup(currentRule,item)">
+                  <i class="fa fa-minus-circle"></i>
+                  Delete
+                </button>
+              </div>
+            </li>
+            <dl *ngIf="!!item?.condition" class="rules-group-container">
+              <dt class='rules-group-header'>
+                <div class="btn-group btn-group-sm float-right">
+                  <button type="button" class="btn btn-sm btn-success" (click)="addEmptyCondition(item)">
+                    <i class="fa fa-plus"></i>
+                    Add Condition
+                  </button>
+                  <button type="button" class="btn btn-sm btn-success" (click)="addEmptyConditionGroup(item)">
+                    <i class="fa fa-plus-circle"></i>
+                    Add Group
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger"
+                          (click)="deleteConditionOrGroup(currentRule,item)">
+                    <i class="fa fa-minus-circle"></i>
+                    Delete
+                  </button>
+                </div>
+
+
+                <div class="btn-group btn-group-sm">
+                  <button type="button" class="btn btn-sm"
+                          [ngClass]="{'btn-primary':isLogicOperatorValid(item,LOGIC_OPERATORS.AND)}"
+                          (click)="onClickLogicOperator(item,LOGIC_OPERATORS.AND)">{{LOGIC_OPERATORS.AND|uppercase}}
+
+                  </button>
+                  <button type="button" class="btn btn-sm"
+                          [ngClass]="{'btn-primary':isLogicOperatorValid(item,LOGIC_OPERATORS.OR)}"
+                          (click)="onClickLogicOperator(item,LOGIC_OPERATORS.OR)">{{LOGIC_OPERATORS.OR|uppercase}}
+
+                  </button>
+                  <button type="button" class="btn btn-sm"
+                          [ngClass]="{'btn-primary':isLogicOperatorValid(item,LOGIC_OPERATORS.NOT)}"
+                          (click)="onClickLogicOperator(item,LOGIC_OPERATORS.NOT)">{{LOGIC_OPERATORS.NOT|uppercase}}
+                  </button>
+                </div>
+
+              </dt>
+              <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item}"></ng-container>
+            </dl>
+          </ng-container>
+        </ul>
+      </dd>
+    </ng-template>
+
+    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: currentRule}"></ng-container>
+
+  </dl>
+</div>
+
+
+
+

@@ -1,0 +1,24 @@
+<div class="container">
+  <h3>Edit</h3>
+  <query-builder [rule]="rule1" [filter]="filter1"></query-builder>
+  <div class="btn-group">
+    <button class="btn btn-warning" (click)="resetRule1()">Reset</button>
+    <button class="btn btn-primary">Save rules</button>
+  </div>
+
+  <h4>Rule</h4>{{rule1|json}}
+  <h4>Filter</h4>{{filter1|json}}
+</div>
+
+<div style="height:20px"></div>
+<div class="container">
+  <h3>Add</h3>
+  <query-builder [rule]="rule2" [filter]="filter1"></query-builder>
+  <div class="btn-group">
+    <button class="btn btn-warning" (click)="resetRule2()">Reset</button>
+    <button class="btn btn-primary">Save rules</button>
+  </div>
+  <h4>Rule</h4>{{rule2|json}}
+  <h4>Filter</h4>{{filter1|json}}
+</div>
+
