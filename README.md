@@ -1,4 +1,5 @@
 # Angular
+Similar to jQuery Query Builder(http://querybuilder.js.org) written in Angular.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 
