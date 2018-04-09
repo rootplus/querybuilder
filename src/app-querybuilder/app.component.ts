@@ -77,7 +77,7 @@ export class AppComponent {
   }
 
   resetRule2() {
-    this.rule1 = _.cloneDeep(this.rule1Original);
+    this.rule2 = _.cloneDeep(this.rule2Original);
   }
 }
 
